@@ -1,11 +1,39 @@
 {
   "pages": [
+    "pages/index/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTitleText": "小商记",
     "navigationBarTextStyle": "black"
+  },
+  "cloud": true,
+  "usingComponents": {
+    "i-button": "./pages/dist/button/index"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "记一笔",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "统计",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "个人",
+        "iconPath": "",
+        "selectedIconPath": ""
+      }
+    ],
+    "selectedColor": "#3585F9"
   }
 }
