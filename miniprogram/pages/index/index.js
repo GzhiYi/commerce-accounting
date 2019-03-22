@@ -16,7 +16,8 @@ Page({
     sellDate: '',
     sellTime: '',
     remark: '',
-    currentProfit: '' // 当前所记帐的利润
+    currentProfit: '', // 当前所记帐的利润
+    loading: false
   },
 
   /**
@@ -50,6 +51,7 @@ Page({
       sellDate: parseTime(new Date(), '{y}-{m}-{d}'),
       sellTime: parseTime(new Date(), '{h}:{i}')
     })
+    this.getBill()
   },
 
   /**
@@ -94,13 +96,16 @@ Page({
   // 记一笔
   bookOne() {
     let content = ''
-    const { billName, buyPrice, sellPrice, amount, sellDate, sellTime } = this.data
+    const { billName, buyPrice, sellPrice, amount, sellDate, sellTime, postage, remark, currentProfit } = this.data
+    const self = this
     if (!billName) {
       content = '不知道你卖了啥'
     } else if (!buyPrice) {
       content = '进货价忘记填啦～'
     } else if (!sellPrice) {
       content = '售价忘记填啦～'
+    } else if (!postage) {
+      content = '邮费是多少？'
     } else if (!amount) {
       content = '忘记填数量！'
     } else if (!sellDate) {
@@ -114,7 +119,54 @@ Page({
         type: 'error'
       });
     } else {
-
+      // 这里调接口
+      self.setData({
+        loading: true
+      })
+      wx.cloud.callFunction({
+        name: 'bill',
+        data: {
+          type: 'create',
+          billName,
+          buyPrice,
+          sellPrice,
+          amount,
+          postage,
+          sellDate,
+          sellTime,
+          remark,
+          profit: currentProfit,
+          createTime: Date.parse(new Date())
+        },
+        success(res) {
+          $Message({
+            content: '成功',
+            type: 'success'
+          });
+          self.setData({
+            billName: '',
+            buyPrice: '',
+            sellPrice: '',
+            amount: 1,
+            postage: 0,
+            sellDate: parseTime(new Date(), '{y}-{m}-{d}'),
+            sellTime: parseTime(new Date(), '{h}:{i}'),
+            remark: '',
+            currentProfit: '' // 当前所记帐的利润
+          })
+        },
+        fail(error) {
+          $Message({
+            content: '记账失败，请稍后再试！',
+            type: 'error'
+          });
+        },
+        complete() {
+          self.setData({
+            loading: false
+          })
+        }
+      })
     }
   },
 
@@ -129,5 +181,20 @@ Page({
         currentProfit: (sellPrice - buyPrice) * amount - postage || 0
       })
     }
+  },
+  getBill() {
+    const todayBeginTimeStamp = Date.parse(new Date(new Date(new Date().toLocaleDateString()).getTime()))
+    const todayEndTimeStamp = Date.parse(new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1))
+    wx.cloud.callFunction({
+      name: 'bill',
+      data: {
+        type: 'get',
+        todayBeginTimeStamp,
+        todayEndTimeStamp
+      },
+      success(res) {
+        console.log(res)
+      }
+    })
   }
 })

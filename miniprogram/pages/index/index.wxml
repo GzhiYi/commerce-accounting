@@ -13,7 +13,7 @@
       <i-input value="{{ sellTime }}" bind:change="onBillDataChange" data-item="sellTime" maxlength="{{-1}}" right="{{true}}" type="time" title="售出时间" placeholder='选择' />
       <i-input value="{{ remark }}" bind:change="onBillDataChange" data-item="remark" maxlength="{{-1}}" right="{{true}}" type="textarea" title="备注" placeholder="有什么可以备注的(最多50字)" maxlength="50" />
     </i-panel>
-    <i-button bind:click="bookOne" type="success">记一笔</i-button>
+    <i-button bind:click="bookOne" type="success" loading="{{loading}}">记一笔</i-button>
   </view>
   <view class="history-bill">
     <i-divider content="以下为今日记账"></i-divider>
