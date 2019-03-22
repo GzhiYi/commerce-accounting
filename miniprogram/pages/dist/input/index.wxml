@@ -14,6 +14,22 @@
         bindfocus="handleInputFocus"
         bindblur="handleInputBlur"
     ></textarea>
+    <picker
+		wx:elif="{{ type === 'date'}}"
+		mode="{{ type }}"
+		value="{{ value }}"
+		disabled="{{ disabled }}"
+		class="i-input-input i-cell-bd {{ right ? 'i-input-input-right' : '' }}"
+		bindchange="handleInputChange"
+	>{{ value == "" ? placeholder : value }}</picker>
+    <picker
+		wx:elif="{{ type === 'time'}}"
+		mode="{{ type }}"
+		value="{{ value }}"
+		disabled="{{ disabled }}"
+		class="i-input-input i-cell-bd {{ right ? 'i-input-input-right' : '' }}"
+		bindchange="handleInputChange"
+	>{{ value == "" ? placeholder : value }}</picker>
     <input
         wx:else
         type="{{ type }}"

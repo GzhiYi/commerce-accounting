@@ -11,27 +11,28 @@
   },
   "cloud": true,
   "usingComponents": {
-    "i-button": "./pages/dist/button/index"
+    "i-button": "./pages/dist/button/index",
+    "i-panel": "./pages/dist/panel/index",
+    "i-input": "./pages/dist/input/index",
+    "i-switch": "./pages/dist/switch/index",
+    "i-cell": "./pages/dist/cell/index",
+    "i-cell-group": "./pages/dist/cell-group/index",
+    "i-divider": "./pages/dist/divider/index",
+    "i-message": "./pages/dist/message/index"
   },
   "tabBar": {
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "记一笔",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "记一笔"
       },
       {
         "pagePath": "pages/index/index",
-        "text": "统计",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "统计"
       },
       {
         "pagePath": "pages/index/index",
-        "text": "个人",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "个人"
       }
     ],
     "selectedColor": "#3585F9"

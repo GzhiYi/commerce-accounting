@@ -1,0 +1,23 @@
+<view class='main'>
+  <view class='write-area'>
+    <i-cell-group>
+      <i-cell title="记一笔售出" value="本笔售出利润为{{currentProfit || 0}}元"></i-cell>
+    </i-cell-group>
+    <i-panel>
+      <i-input value="{{ billName }}" bind:change="onBillDataChange" data-item="billName" maxlength="{{-1}}" right="{{true}}" title="物品" autofocus placeholder="卖的是啥"/>
+      <i-input value="{{ buyPrice }}" bind:change="onBillDataChange" data-item="buyPrice" maxlength="{{-1}}" right="{{true}}" type="number" title="进货价" placeholder='/元'/>
+      <i-input value="{{ sellPrice }}" bind:change="onBillDataChange" data-item="sellPrice" maxlength="{{-1}}" right="{{true}}" type="number" title="零售价" placeholder='/元'/>
+      <i-input value="{{ amount }}" bind:change="onBillDataChange" data-item="amount" maxlength="{{-1}}" right="{{true}}" type="number" title="数量" placeholder='/份' />
+      <i-input value="{{ postage }}" bind:change="onBillDataChange" data-item="postage" maxlength="{{-1}}" right="{{true}}" type="number" title="邮费" placeholder='/元' />
+      <i-input value="{{ sellDate }}" bind:change="onBillDataChange" data-item="sellDate" maxlength="{{-1}}" right="{{true}}" type="date" title="售出日期" placeholder='选择' />
+      <i-input value="{{ sellTime }}" bind:change="onBillDataChange" data-item="sellTime" maxlength="{{-1}}" right="{{true}}" type="time" title="售出时间" placeholder='选择' />
+      <i-input value="{{ remark }}" bind:change="onBillDataChange" data-item="remark" maxlength="{{-1}}" right="{{true}}" type="textarea" title="备注" placeholder="有什么可以备注的(最多50字)" maxlength="50" />
+    </i-panel>
+    <i-button bind:click="bookOne" type="success">记一笔</i-button>
+  </view>
+  <view class="history-bill">
+    <i-divider content="以下为今日记账"></i-divider>
+  </view>
+</view>
+
+<i-message id="message" />
