@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/sta/sta",
+    "pages/index/index",
+    
     "pages/personal/personal"
   ],
   "window": {
@@ -26,7 +27,9 @@
     "i-tag": "./pages/dist/tag/index",
     "i-card": "./pages/dist/card/index",
     "i-action-sheet": "./pages/dist/action-sheet/index",
-    "i-alert": "./pages/dist/alert/index"
+    "i-alert": "./pages/dist/alert/index",
+    "i-tabs": "./pages/dist/tabs/index",
+    "i-tab": "./pages/dist/tab/index"
   },
   "tabBar": {
     "list": [

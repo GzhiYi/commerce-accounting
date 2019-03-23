@@ -1,2 +1,8 @@
-<!--pages/sta/sta.wxml-->
-<text>pages/sta/sta.wxml</text>
+<i-tabs current="{{ currentTab }}" color="#d6473b" bindchange="handleTabChange">
+  <i-tab key="tab1" title="昨天"></i-tab>
+  <i-tab key="tab2" title="最近七天"></i-tab>
+  <i-tab key="tab3" title="最近一个月"></i-tab>
+  <i-tab key="tab4" title="最近一年"></i-tab>
+</i-tabs>
+<canvas style='width: 100%;margin: 20rpx 0;padding: 40rpx;' canvas-id="lineCanvas" disable-scroll="true" class="canvas" bindtouchstart="touchHandler"></canvas>
+<view>kalal</view>

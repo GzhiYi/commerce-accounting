@@ -47,8 +47,7 @@ exports.main = async (event, context) => {
         const res = await db.collection('bill').where({
           createBy: wxContext.OPENID,
           isDelete: false,
-          createTime: _.lte(event.todayEndTimeStamp),
-          createTime: _.gte(event.todayBeginTimeStamp)
+          createTime: _.gte(event.todayBeginTimeStamp).and(_.lt(event.todayEndTimeStamp))
         })
         .get()
         return res
