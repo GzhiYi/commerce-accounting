@@ -30,7 +30,11 @@ Page({
     deleteVisible: false, // 控制action显示隐藏
     targetBill: {},
     isEdit: false,
-    scrollTop: 0
+    scrollTop: 0,
+    summaryData: {
+      profitAll: 0,
+      itemNum: 0
+    }
   },
 
   /**
@@ -102,13 +106,14 @@ Page({
     let content = ''
     const { billName, buyPrice, sellPrice, amount, sellDate, sellTime, postage, remark, currentProfit, isEdit, editId } = this.data
     const self = this
+    console.log(typeof postage)
     if (!billName) {
       content = '不知道你卖了啥'
     } else if (!buyPrice) {
       content = '进货价忘记填啦～'
     } else if (!sellPrice) {
       content = '售价忘记填啦～'
-    } else if (!postage) {
+    } else if (typeof postage === 'string' && !postage) {
       content = '邮费是多少？'
     } else if (!amount) {
       content = '忘记填数量！'
@@ -202,8 +207,16 @@ Page({
       },
       success(res) {
         console.log(res)
+        let summaryData = {}
+        let sum = 0
+        res.result.data.forEach(item => {
+          sum += item.profit
+        })
+        summaryData.itemNum = res.result.data.length
+        summaryData.profitAll = sum
         self.setData({
-          todayBillList: res.result.data.reverse()
+          todayBillList: res.result.data.reverse(),
+          summaryData
         })
       }
     })

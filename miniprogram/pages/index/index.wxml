@@ -4,7 +4,7 @@
       <i-cell title="记一笔售出" value="本笔售出利润为{{currentProfit || 0}}元"></i-cell>
     </i-cell-group>
     <i-panel>
-      <i-input value="{{ billName }}" bind:change="onBillDataChange" data-item="billName" maxlength="{{-1}}" right="{{true}}" title="物品" autofocus placeholder="卖的是啥"/>
+      <i-input value="{{ billName }}" bind:change="onBillDataChange" data-item="billName" maxlength="{{-1}}" right="{{true}}" title="物品" placeholder="卖的是啥"/>
       <i-input value="{{ buyPrice }}" bind:change="onBillDataChange" data-item="buyPrice" maxlength="{{-1}}" right="{{true}}" type="number" title="进货价" placeholder='/元'/>
       <i-input value="{{ sellPrice }}" bind:change="onBillDataChange" data-item="sellPrice" maxlength="{{-1}}" right="{{true}}" type="number" title="零售价" placeholder='/元'/>
       <i-input value="{{ amount }}" bind:change="onBillDataChange" data-item="amount" maxlength="{{-1}}" right="{{true}}" type="number" title="数量" placeholder='/份' />
@@ -17,7 +17,7 @@
     <i-button wx:if="{{isEdit}}" bind:click="cancleEdit" type="error">取消编辑</i-button>
   </view>
   <view class="history-bill">
-    <i-divider content="以下为今日记账"></i-divider>
+    <i-divider wx:if="{{todayBillList.length > 0}}" content="以下为今日记账"></i-divider>
     <i-card i-class="bill-card-item" wx:for="{{todayBillList}}" wx:key="item._id" title="{{item.billName}}" extra="利润{{item.profit}}元">
       <view slot="content">
         <text>
@@ -48,6 +48,10 @@
         </view>
       </view>
     </i-card>
+    <i-alert wx:if="{{todayBillList.length > 0}}" type="success" show-icon desc i-class="summary">
+        今天总利润：{{summaryData.profitAll}}元
+        <view slot="desc">共记账{{summaryData.itemNum}}笔，祝你好运</view>
+    </i-alert>
   </view>
 </view>
 <i-message id="message" />

@@ -4,9 +4,12 @@
   font-size:34rpx;
 }
 .bill-card-item {
-  margin-bottom:16rpx !important;
+  margin-bottom:26rpx !important;
 }
 .foot-icon {
   display: flex;
   justify-content: space-between;
+}
+.summary {
+  border-radius:10rpx;
 }

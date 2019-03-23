@@ -1,6 +1,8 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/sta/sta",
+    "pages/personal/personal"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -23,23 +25,30 @@
     "i-icon": "./pages/dist/icon/index",
     "i-tag": "./pages/dist/tag/index",
     "i-card": "./pages/dist/card/index",
-    "i-action-sheet": "./pages/dist/action-sheet/index"
+    "i-action-sheet": "./pages/dist/action-sheet/index",
+    "i-alert": "./pages/dist/alert/index"
   },
   "tabBar": {
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "记一笔"
+        "text": "记一笔",
+        "iconPath": "./images/mark-dark.png",
+        "selectedIconPath": "./images/mark-bright.png"
       },
       {
-        "pagePath": "pages/index/index",
-        "text": "统计"
+        "pagePath": "pages/sta/sta",
+        "text": "统计",
+        "iconPath": "./images/sta-dark.png",
+        "selectedIconPath": "./images/sta-bright.png"
       },
       {
-        "pagePath": "pages/index/index",
-        "text": "个人"
+        "pagePath": "pages/personal/personal",
+        "text": "个人",
+        "iconPath": "./images/personal-dark.png",
+        "selectedIconPath": "./images/personal-bright.png"
       }
     ],
-    "selectedColor": "#3585F9"
+    "selectedColor": "#d6473b"
   }
 }
