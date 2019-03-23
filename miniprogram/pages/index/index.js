@@ -8,6 +8,7 @@ Page({
    */
   data: {
     // 一笔帐的数据
+    editId: null,
     billName: '',
     buyPrice: '',
     sellPrice: '',
@@ -17,22 +18,25 @@ Page({
     sellTime: '',
     remark: '',
     currentProfit: '', // 当前所记帐的利润
-    loading: false
+    loading: false,
+    todayBillList: [],
+
+    deleteAction: [
+      {
+        name: '删除',
+        color: '#ed3f14'
+      }
+    ],
+    deleteVisible: false, // 控制action显示隐藏
+    targetBill: {},
+    isEdit: false,
+    scrollTop: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.cloud.callFunction({
-      name: 'extend',
-      success(res) {
-        console.log(res)
-      },
-      fail(err) {
-        console.log(err)
-      }
-    })
   },
 
   /**
@@ -96,7 +100,7 @@ Page({
   // 记一笔
   bookOne() {
     let content = ''
-    const { billName, buyPrice, sellPrice, amount, sellDate, sellTime, postage, remark, currentProfit } = this.data
+    const { billName, buyPrice, sellPrice, amount, sellDate, sellTime, postage, remark, currentProfit, isEdit, editId } = this.data
     const self = this
     if (!billName) {
       content = '不知道你卖了啥'
@@ -126,7 +130,8 @@ Page({
       wx.cloud.callFunction({
         name: 'bill',
         data: {
-          type: 'create',
+          type: isEdit ? 'edit' : 'create',
+          billId: editId,
           billName,
           buyPrice,
           sellPrice,
@@ -154,6 +159,8 @@ Page({
             remark: '',
             currentProfit: '' // 当前所记帐的利润
           })
+          self.getBill()
+          self.cancleEdit()
         },
         fail(error) {
           $Message({
@@ -176,13 +183,14 @@ Page({
     })
     // 计算单笔利润
     const { buyPrice, sellPrice, amount, postage } = this.data
-    if (buyPrice && sellPrice && amount) {
+    if (buyPrice && sellPrice && amount > 0) {
       this.setData({
         currentProfit: (sellPrice - buyPrice) * amount - postage || 0
       })
     }
   },
   getBill() {
+    const self = this
     const todayBeginTimeStamp = Date.parse(new Date(new Date(new Date().toLocaleDateString()).getTime()))
     const todayEndTimeStamp = Date.parse(new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1))
     wx.cloud.callFunction({
@@ -194,7 +202,92 @@ Page({
       },
       success(res) {
         console.log(res)
+        self.setData({
+          todayBillList: res.result.data.reverse()
+        })
       }
+    })
+  },
+  editItem(event) {
+    console.log(event)
+    const target = event.currentTarget.dataset.item
+    this.setData({
+      billName: target.billName,
+      buyPrice: target.buyPrice,
+      sellPrice: target.sellPrice,
+      amount: target.amount,
+      postage: target.postage,
+      sellDate: target.sellDate,
+      sellTime: target.sellTime || parseTime(new Date(), '{h}:{i}'),
+      remark: target.remark,
+      currentProfit: target.profit, // 当前所记帐的利润
+      isEdit: true,
+      scrollTop: event.changedTouches[0].clientY,
+      editId: target._id
+    })
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 800
+    })
+  },
+  deleteItem(event) {
+    const target = event.currentTarget.dataset.item
+    this.setData({
+      deleteVisible: true,
+      targetBill: target
+    })
+  },
+  handleTrueDelete() {
+    const action = [...this.data.deleteAction];
+    const self = this
+    action[0].loading = true;
+
+    self.setData({
+      deleteAction: action
+    });
+
+    wx.cloud.callFunction({
+      name: 'bill',
+      data: {
+        type: 'delete',
+        billId: this.data.targetBill._id
+      },
+      success() {
+        action[0].loading = false;
+        self.setData({
+          deleteVisible: false,
+          deleteAction: action
+        });
+        $Message({
+          content: '删除成功！',
+          type: 'success'
+        });
+        self.getBill()
+      }
+    })
+  },
+  handleActionCancle() {
+    this.setData({
+      deleteVisible: false
+    })
+  },
+  cancleEdit() {
+    wx.pageScrollTo({
+      scrollTop: this.data.scrollTop,
+      duration: 800
+    })
+    this.setData({
+      isEdit: false,
+      billName: '',
+      buyPrice: '',
+      sellPrice: '',
+      amount: 1,
+      postage: 0,
+      sellDate: parseTime(new Date(), '{y}-{m}-{d}'),
+      sellTime: parseTime(new Date(), '{h}:{i}'),
+      remark: '',
+      currentProfit: '',
+      scrollTop: 0,
     })
   }
 })

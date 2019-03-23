@@ -18,7 +18,12 @@
     "i-cell": "./pages/dist/cell/index",
     "i-cell-group": "./pages/dist/cell-group/index",
     "i-divider": "./pages/dist/divider/index",
-    "i-message": "./pages/dist/message/index"
+    "i-message": "./pages/dist/message/index",
+    "i-swipeout": "./pages/dist/swipeout/index",
+    "i-icon": "./pages/dist/icon/index",
+    "i-tag": "./pages/dist/tag/index",
+    "i-card": "./pages/dist/card/index",
+    "i-action-sheet": "./pages/dist/action-sheet/index"
   },
   "tabBar": {
     "list": [

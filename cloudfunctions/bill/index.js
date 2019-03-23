@@ -29,11 +29,12 @@ exports.main = async (event, context) => {
         amount,
         postage,
         sellDate,
-        sellDate,
+        sellTime,
         remark,
         profit,
         createBy: wxContext.OPENID,
-        createTime
+        createTime,
+        isDelete: false
       }
     })
     return {
@@ -45,16 +46,49 @@ exports.main = async (event, context) => {
       case '今天':
         const res = await db.collection('bill').where({
           createBy: wxContext.OPENID,
+          isDelete: false,
           createTime: _.lte(event.todayEndTimeStamp),
           createTime: _.gte(event.todayBeginTimeStamp)
         })
         .get()
-        console.log('开始', event.todayEndTimeStamp)
-        console.log('开始2', event.todayBeginTimeStamp)
-        console.log('开始3', res)
         return res
         break;          
     }
-    
+  } else if (event.type === 'delete') {
+    await db.collection('bill').doc(event.billId).update({
+      data: {
+        isDelete: true
+      }
+    })
+  } else if (event.type === 'edit') {
+    const {
+      billName,
+      buyPrice,
+      sellPrice,
+      amount,
+      postage,
+      sellDate,
+      sellTime,
+      remark,
+      profit,
+      createTime,
+      editId
+    } = event
+    await db.collection('bill').doc(event.billId).update({
+      data: {
+        billName,
+        buyPrice,
+        sellPrice,
+        amount,
+        postage,
+        sellDate,
+        sellTime,
+        remark,
+        profit
+      }
+    })
+    return {
+      event
+    }
   }
 }

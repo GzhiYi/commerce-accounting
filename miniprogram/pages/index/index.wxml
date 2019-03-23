@@ -13,11 +13,54 @@
       <i-input value="{{ sellTime }}" bind:change="onBillDataChange" data-item="sellTime" maxlength="{{-1}}" right="{{true}}" type="time" title="售出时间" placeholder='选择' />
       <i-input value="{{ remark }}" bind:change="onBillDataChange" data-item="remark" maxlength="{{-1}}" right="{{true}}" type="textarea" title="备注" placeholder="有什么可以备注的(最多50字)" maxlength="50" />
     </i-panel>
-    <i-button bind:click="bookOne" type="success" loading="{{loading}}">记一笔</i-button>
+    <i-button bind:click="bookOne" type="success" loading="{{loading}}">{{isEdit ? '保存' : '记一笔'}}</i-button>
+    <i-button wx:if="{{isEdit}}" bind:click="cancleEdit" type="error">取消编辑</i-button>
   </view>
   <view class="history-bill">
     <i-divider content="以下为今日记账"></i-divider>
+    <i-card i-class="bill-card-item" wx:for="{{todayBillList}}" wx:key="item._id" title="{{item.billName}}" extra="利润{{item.profit}}元">
+      <view slot="content">
+        <text>
+          进货价：{{item.buyPrice}}元，零售价：{{item.sellPrice}}元，邮费：{{item.postage}}元
+          数量：{{item.amount}}
+          备注：{{item.remark}}
+        </text>
+      </view>
+      <view class='foot-icon' slot="footer">
+        售出时间：{{item.sellDate}} {{item.sellTime}}
+        <view class='handle'>
+          <i-icon
+            type="brush"
+            size="24"
+            color="#80848f"
+            style="margin-right: 15rpx;"
+            bindtap="editItem"
+            data-item="{{item}}"
+            data-index="{{index}}"
+          />
+          <i-icon
+            type="trash"
+            size="24"
+            color="red"
+            bindtap="deleteItem"
+            data-item="{{item}}"
+          />
+        </view>
+      </view>
+    </i-card>
   </view>
 </view>
-
 <i-message id="message" />
+<i-action-sheet
+  visible="{{ deleteVisible }}"
+  actions="{{ deleteAction }}"
+  show-cancel
+  bind:cancel="handleActionCancle"
+  bind:click="handleTrueDelete"
+  mask-closable="{{ false }}"
+>
+    <view slot="header" style="padding: 16px">
+        <view style="color: #444;font-size: 16px">确定吗？</view>
+        <text>删除后无法恢复哦</text>
+    </view>
+</i-action-sheet>

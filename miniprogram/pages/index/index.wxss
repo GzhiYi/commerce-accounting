@@ -1,1 +1,12 @@
 /* pages/index/index.wxss */
+.profit {
+  float:right;
+  font-size:34rpx;
+}
+.bill-card-item {
+  margin-bottom:16rpx !important;
+}
+.foot-icon {
+  display: flex;
+  justify-content: space-between;
+}
